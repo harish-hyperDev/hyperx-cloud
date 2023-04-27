@@ -2,16 +2,27 @@ require('dotenv/config');
 const express = require('express');
 const multer = require('multer');
 const AWS = require('aws-sdk');
+const { GetObjectCommand, S3Client, ListObjectsV2Command } = require("@aws-sdk/client-s3");
 const { uuid } = require('uuidv4');
 
 const app = express();
 const PORT = process.env.PORT || 4400;
 
-const ep = new AWS.Endpoint('https://s3.ap-southeast-1.wasabisys.com');
-const s3 = new AWS.S3({
+const credentials = {
     accessKeyId: process.env.WSB_ID,
     secretAccessKey: process.env.WSB_SECRET,
+}
+
+const ep = new AWS.Endpoint('https://s3.ap-southeast-1.wasabisys.com');
+const s3 = new AWS.S3({
+    credentials,
     endpoint: ep
+})
+
+const client = new S3Client({    
+    region: 'ap-southeast-1',
+    credentials,
+    // endpoint: ep,
 })
 
 const storage = multer.memoryStorage({
@@ -20,16 +31,52 @@ const storage = multer.memoryStorage({
     }
 })
 
-const upload = multer({storage}).single('image')
+const upload = multer({storage}).single('file')
+
+async function list() {
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/interfaces/listobjectsv2commandinput.html
+    const input = {
+        Bucket: process.env.WSB_BUCKET_NAME
+    }
+
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/classes/command.html
+    const cmd = new ListObjectsV2Command(input)
+    console.log(cmd)
+    
+    /* const command = new GetObjectCommand({
+        Bucket: process.env.WSB_BUCKET_NAME,
+        Key: "*"
+    }) */
+    
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/classes/listobjectsv2command.html
+    return await client.send(cmd)
+}
+
+
+app.get('/', async (req,res) => {
+    
+    try {
+        // const response = await client.send(command);
+        const response = await list();
+
+        const str = await response.Body.transformToString();
+        console.log(str);
+        
+        res.json({
+            result: str
+        })
+    } catch (err) {
+        console.log(err)
+        res.json({
+            error: err
+        })
+    }
+})
 
 app.post('/upload', upload, (req,res) => {
     // console.log(req.file);
     let myFile = req.file.originalname.split(".");
     const fileType = myFile[myFile.length - 1]
-
-    /* res.send({
-        message: "Hello"
-    }) */
 
     const params = {
         Bucket: process.env.WSB_BUCKET_NAME,
