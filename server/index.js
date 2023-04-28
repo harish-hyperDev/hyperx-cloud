@@ -22,7 +22,7 @@ const s3 = new AWS.S3({
 const client = new S3Client({    
     region: 'ap-southeast-1',
     credentials,
-    // endpoint: ep,
+    endpoint: ep,
 })
 
 const storage = multer.memoryStorage({
@@ -53,17 +53,26 @@ async function list() {
 }
 
 
+(async () => {
+    const response = await client.send(new GetObjectCommand({Bucket:process.env.WSB_BUCKET_NAME,Key:"4977880a-a202-45dd-b32f-2843fa192d84.png"}));
+    console.log(response);
+})();
+
+
 app.get('/', async (req,res) => {
     
     try {
         // const response = await client.send(command);
         const response = await list();
 
-        const str = await response.Body.transformToString();
-        console.log(str);
+        console.log("--- response is ---")
+        console.log(response)
+        // const str = await response.Body.transformToString();
+        const contents = await response.Contents;
+        // console.log(str);
         
         res.json({
-            result: str
+            bucketObjects: contents
         })
     } catch (err) {
         console.log(err)
