@@ -19,7 +19,7 @@ const s3 = new AWS.S3({
     endpoint: ep
 })
 
-const client = new S3Client({    
+const client = new S3Client({
     region: 'ap-southeast-1',
     credentials,
     endpoint: ep,
@@ -33,7 +33,7 @@ const storage = multer.memoryStorage({
 
 const upload = multer({storage}).single('file')
 
-async function list() {
+async function listContents() {
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/interfaces/listobjectsv2commandinput.html
     const input = {
         Bucket: process.env.WSB_BUCKET_NAME
@@ -41,7 +41,7 @@ async function list() {
 
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/classes/command.html
     const cmd = new ListObjectsV2Command(input)
-    console.log(cmd)
+    // console.log(cmd)
     
     /* const command = new GetObjectCommand({
         Bucket: process.env.WSB_BUCKET_NAME,
@@ -52,30 +52,18 @@ async function list() {
     return await client.send(cmd)
 }
 
-
-(async () => {
-    const response = await client.send(new GetObjectCommand({Bucket:process.env.WSB_BUCKET_NAME,Key:"4977880a-a202-45dd-b32f-2843fa192d84.png"}));
-    console.log(response);
-})();
-
-
 app.get('/', async (req,res) => {
     
     try {
         // const response = await client.send(command);
-        const response = await list();
-
-        console.log("--- response is ---")
-        console.log(response)
-        // const str = await response.Body.transformToString();
+        const response = await listContents();
         const contents = await response.Contents;
-        // console.log(str);
         
         res.json({
             bucketObjects: contents
         })
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         res.json({
             error: err
         })
