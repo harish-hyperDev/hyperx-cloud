@@ -72,12 +72,14 @@ app.get('/', async (req,res) => {
 
 app.post('/upload', upload, (req,res) => {
     // console.log(req.file);
-    let myFile = req.file.originalname.split(".");
-    const fileType = myFile[myFile.length - 1]
+    
+    // let myFile = req.file.originalname.split(".");
+    // const fileType = myFile[myFile.length - 1]
 
     const params = {
         Bucket: process.env.WSB_BUCKET_NAME,
-        Key: `${uuid()}.${fileType}`,
+        // Key: `${uuid()}.${fileType}`,
+        Key: req.file.originalname,
         Body: req.file.buffer
     }
     s3.upload(params, (error, data) => {
