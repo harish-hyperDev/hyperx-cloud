@@ -1,0 +1,15 @@
+@import "../index.css";
+
+.search-bar {
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Neufreit-Light';
+    font-size: 18px;
+}
+
+.sidebar {
+    font-family: 'Neufreit-Light';
+    font-weight: 600;
+    font-size: 16px;
+}
+
