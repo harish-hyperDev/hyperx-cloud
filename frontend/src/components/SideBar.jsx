@@ -18,7 +18,7 @@ const SideBar = () => {
 
 
   return (
-    <div className="sidebar" style={{ height: "100vh", display: "flex" }}>
+    <div className="sidebar">
       <Sidebar>
         <Menu style={{ width: 'fit-content', fontFamily: "Neufreit-Bold" }}>
           <MenuItem

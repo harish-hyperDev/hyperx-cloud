@@ -8,6 +8,8 @@
 }
 
 .sidebar {
+    display: flex;
+    
     font-family: 'Neufreit-Light';
     font-weight: 600;
     font-size: 16px;
