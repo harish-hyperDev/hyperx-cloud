@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css'
 
 // import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
 import SideBar from './components/SideBar'
 import SearchBar from './components/SearchBar';
 import Home from './pages/Home'
+import DetailsBar from './components/DetailsBar';
 // import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 // import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 // import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -15,14 +16,20 @@ import Home from './pages/Home'
 
 function App() {
 
+  const [selectedPost, setSelectedPost] = useState({})
+
+  useEffect(() => {
+    console.log("change in post : ", selectedPost)
+  }, [selectedPost])
   // const { collapseSidebar } = useProSidebar();
   return (
     <div style={{ display: 'flex' }}>
       <SideBar />
       <div className='app-block'>
         <SearchBar />
-        <Home />
+        <Home setSelectedPost={setSelectedPost} />
       </div>
+      <DetailsBar selectedPost={selectedPost} />
     </div>
   )
 }

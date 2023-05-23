@@ -2,6 +2,12 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+
+    height: 90vh;
+    /* border: 1px solid black; */
+    /* overflow: scroll; */
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .post {

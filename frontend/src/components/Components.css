@@ -7,11 +7,40 @@
     font-size: 18px;
 }
 
-.sidebar {
+.sidebar, .details-bar {
+    font-family: 'Roboto' !important;
+    font-family: 'Neufreit-Light' !important;
+
     display: flex;
-    
-    font-family: 'Neufreit-Light';
-    font-weight: 600;
+    font-weight: 400;
     font-size: 16px;
 }
+
+.details-bar {
+    font-family: 'Roboto', sans-serif !important;
+    font-family: 'Neufreit-Light' !important;
+
+    font-weight: 500;
+    font-size: 16px;
+    width: 100%;
+    padding: 10px;
+}
+
+.sidebar {
+    background-color: #000;
+}
+
+.details-thumbnail, .no-thumbnail {
+    height: 300px;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.no-thumbnail {
+    padding-top: 50px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+/* a.ps-menu-button { } */
 

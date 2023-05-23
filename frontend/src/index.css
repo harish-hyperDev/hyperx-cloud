@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 @font-face {
     font-family: 'Neufreit-Bold';
     src: url('./assets/fonts/NeufreitExtrabold-2OLWK.otf') format('truetype');
@@ -13,3 +15,5 @@
     font-weight: 300;
     font-style: normal;
 }
+
+body { margin: 0; }
