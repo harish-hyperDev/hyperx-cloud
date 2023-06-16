@@ -3,7 +3,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
+'''
+Config VARIABLES for Wasabi Access
+'''
 WSB_ACCESS_KEY_ID = os.getenv('WSB_ID')
 WSB_SECRET_ACCESS_KEY = os.getenv('WSB_SECRET')
 WSB_STORAGE_BUCKET_NAME = os.getenv('WSB_BUCKET_NAME')
@@ -24,3 +26,8 @@ DEFAULT_FILE_STORAGE = 'mysite.storage_backends.PublicMediaStorage'
 
 WSB_PRIVATE_MEDIA_LOCATION = 'media/private'
 PRIVATE_FILE_STORAGE = 'mysite.storage_backends.PrivateMediaStorage'
+
+'''
+Config VARIABLES for MongoDB Atlas Access
+'''
+MONGO_URI_PASS = os.getenv('MONGO_URI_PASS')
