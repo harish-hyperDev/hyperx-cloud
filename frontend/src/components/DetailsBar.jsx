@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './Components.css'
 
-function DetailsBar( {selectedPost} ) {
+const DetailsBar = ({selectedPost}) => {
 
   useEffect(() => {
     console.log("detail : ", selectedPost)
