@@ -6,6 +6,7 @@ import './App.css'
 // import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
 import UserHome from './pages/UserHome'
 import LandingPage from './pages/LadingPage';
+import UserRegistration from './pages/UserRegistration';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
     <div style={{ display: 'flex' }}>
       <Routes>
         <Route path='/' element={<LandingPage />} />
+        <Route path='/register' element={<UserRegistration />} />
         <Route path='/user' element={<UserHome/>} />
       </Routes>
     </div>
