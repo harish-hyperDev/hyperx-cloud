@@ -30,4 +30,11 @@ PRIVATE_FILE_STORAGE = 'mysite.storage_backends.PrivateMediaStorage'
 '''
 Config VARIABLES for MongoDB Atlas Access
 '''
+MONGO_DB_NAME = os.getenv('MONGO_DB_NAME')
 MONGO_URI_PASS = os.getenv('MONGO_URI_PASS')
+MONGO_URI_UNAME = os.getenv('MONGO_URI_USERNAME')
+
+'''
+Config VARIABLES for Auth TOKEN
+'''
+AUTH_TOKEN = os.getenv('TOKEN_SECRET')
