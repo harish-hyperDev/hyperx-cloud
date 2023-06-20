@@ -1,20 +1,25 @@
-from fastapi import FastAPI
-import wasabi.config as Config
-from wasabi.loaders import s3, client
+from fastapi import APIRouter, Depends, HTTPException
+
+from helpers.loaders import s3
+import helpers.config as Config
 import botocore
 
 
-app = FastAPI()
+router = APIRouter(
+    prefix="/items",
+    tags=["items"],
+    # dependencies=[Depends(get_token_header)],
+    responses={404: {"description": "Not found"}},
+)
 
-
-@app.get("/get")
+@router.get("/get")
 async def getAllObjects():
     objects = s3.list_objects_v2(Bucket=Config.WSB_STORAGE_BUCKET_NAME)
     # return {"Contents": objects['Contents']}
     return {"Objects" : objects['Contents']}
 
 
-@app.get("/post/{object_name}")
+@router.get("/post/{object_name}")
 async def uploadObject():
     file_path = "<file-to-upload>"
     key_name = "<key-name>"
@@ -26,7 +31,7 @@ async def uploadObject():
     return {"message": "POST"}
 
 
-@app.get("/download/{object_key}")
+@router.get("/download/{object_key}")
 async def downloadObject(object_key):
     try:
         s3.download_file(Config.WSB_STORAGE_BUCKET_NAME, object_key, object_key)    #.download_file(KEY, 'my_local_users.ico')
@@ -36,10 +41,4 @@ async def downloadObject(object_key):
             print("The object does not exist.")
         else:
             raise
-        
-        
-@app.get('/db')
-async def get_db():
-    db = client["HyperWasabi"]
-    db_col = db['User']
-    return { "db": db.list_collection_names() }
+    
