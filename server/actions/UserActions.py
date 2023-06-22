@@ -12,18 +12,22 @@ class UserActions:
     
     @staticmethod    
     def get(uid):
+
         document = db[UserActions.collection].find({"_id": uid})
         if not document:
             return {'message': 'User not found'}
         
         return json.loads(json_util.dumps( document ))
     
+    
     @staticmethod
     def list():
+
         cursor = db[UserActions.collection].find()
         return json.loads(json_util.dumps(
                                 [document for document in cursor]
                             ))
+    
     
     @staticmethod
     def create(user: UserModel):
@@ -45,6 +49,24 @@ class UserActions:
         result = db[UserActions.collection].insert_one(u)
         
         return UserActions.get(result.inserted_id)
+    
+    
+    @staticmethod
+    def delete(uid: str):
+        result = db[UserActions.collection].delete_one({'_id': uid})
+        if not result.deleted_count:
+            return {
+                'error': {   
+                        'key': '_id', 
+                        'message': 'User with _id Not Found'
+                    }
+            }
+        return  {
+                    'success': {
+                            'userDeleted': result.acknowledged
+                        }
+                }
+    
     
     @staticmethod
     def validations(user: UserModel):

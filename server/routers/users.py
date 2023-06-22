@@ -21,22 +21,22 @@ Starting of all routes starting with prefix "/db"
 
 '''
 
-@router.get('/')
+@router.get('/get/{uid}')
+async def get_user(uid: str):
+    return UserActions.get(uid)
+
 
 @router.get('/all')
 async def get_all_users():
     return UserActions.list()
-    # cursor = db[collection].find()
     
-    # users_list = []
-    # for document in cursor:
-    #       users_list.append(document)
-    
-    # if users_list:
-    #     return { "Users": json.loads(json_util.dumps(users_list)) }
-    # else:
-    #     return { "Users": "Collection is empty!"}
 
 @router.post('/register')
 async def create_user(create: UserModel):
     return UserActions.create(create)
+
+
+@router.delete('/{uid}')
+async def delete_user(uid: str):
+    return UserActions.delete(uid)
+    pass
