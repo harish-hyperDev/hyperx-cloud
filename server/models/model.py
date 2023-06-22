@@ -7,3 +7,4 @@ class UserModel(BaseModel):
     password: str = UserFields.password
     type: str = UserFields.type
     # data_limit: float = UserFields.data_limit
+    

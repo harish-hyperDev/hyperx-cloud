@@ -19,6 +19,7 @@ class UserFields:
         example="free-tier"     # free-tier, paid
     )
     data_limit = Field(
-        description="Data limit allocated for the user type"
+        description="Data limit allocated for the user type",
+        example="30.0"
     )
     
