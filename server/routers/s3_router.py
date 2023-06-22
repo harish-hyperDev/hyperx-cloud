@@ -6,33 +6,31 @@ import botocore
 
 
 router = APIRouter(
-    prefix="/items",
-    tags=["items"],
+    prefix="/objects",
+    tags=["objects"],
     # dependencies=[Depends(get_token_header)],
     responses={404: {"description": "Not found"}},
 )
 
 @router.get("/get")
-async def getAllObjects():
+async def get_all_objects():
     objects = s3.list_objects_v2(Bucket=Config.WSB_STORAGE_BUCKET_NAME)
-    # return {"Contents": objects['Contents']}
     return {"Objects" : objects['Contents']}
 
 
 @router.get("/post/{object_name}")
-async def uploadObject():
+async def upload_object():
     file_path = "<file-to-upload>"
     key_name = "<key-name>"
     
     print(Config.WSB_ACCESS_KEY_ID)
     # all_items = s3.get_object(Bucket=bucket_name)
-    # pp(all_items)
 
     return {"message": "POST"}
 
 
 @router.get("/download/{object_key}")
-async def downloadObject(object_key):
+async def download_object(object_key):
     try:
         s3.download_file(Config.WSB_STORAGE_BUCKET_NAME, object_key, object_key)    #.download_file(KEY, 'my_local_users.ico')
         
