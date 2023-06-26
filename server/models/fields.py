@@ -22,4 +22,6 @@ class UserFields:
         description="Data limit allocated for the user type",
         example="30.0"
     )
+    # Write an put opertion using FastAPI router
+    
     

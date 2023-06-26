@@ -7,7 +7,7 @@ from actions.UserActions import UserActions
 from models.model import UserModel
 
 from auth.verify_token import get_token_header
-import json
+# import json
 
 router = APIRouter(
     prefix="/users",
@@ -17,7 +17,7 @@ router = APIRouter(
 )
 
 '''
-Starting of all routes starting with prefix "/db"
+Starting of all routes with prefix "/users"
 
 '''
 
@@ -28,7 +28,7 @@ async def get_user(uid: str):
 
 @router.get('/all')
 async def get_all_users():
-    return UserActions.list()
+    return await UserActions.list()
     
 
 @router.post('/register')
@@ -39,4 +39,3 @@ async def create_user(create: UserModel):
 @router.delete('/{uid}')
 async def delete_user(uid: str):
     return UserActions.delete(uid)
-    pass
