@@ -12,13 +12,13 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/get")
+@router.get("/")
 async def get_all_objects():
     objects = s3.list_objects_v2(Bucket=Config.WSB_STORAGE_BUCKET_NAME)
     return {"Objects" : objects['Contents']}
 
 
-@router.get("/post/{object_name}")
+@router.post("/{object_name}")
 async def upload_object():
     file_path = "<file-to-upload>"
     key_name = "<key-name>"
