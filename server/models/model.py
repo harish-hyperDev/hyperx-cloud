@@ -8,3 +8,10 @@ class UserModel(BaseModel):
     type: str = UserFields.type
     # data_limit: float = UserFields.data_limit
     
+class UserObjectsModel(BaseModel):
+    uid: str
+    name: str
+    objects: list
+    free_space_remaining: float
+    total_objects: int
+    

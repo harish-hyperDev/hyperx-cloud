@@ -13,7 +13,7 @@ class UserActions:
     collection = "Users"
     
     @staticmethod
-    def get(uid) -> dict:
+    def get(uid: str) -> dict:
 
         document = db[UserActions.collection].find({"_id": uid})
         
@@ -30,12 +30,12 @@ class UserActions:
 
         cursor = db[UserActions.collection].find()
         return UserActions.custom_jsonify( 
-                                [document for document in cursor] 
+                                [document for document in cursor]
                             )
     
     
     @staticmethod
-    def create(user: UserModel):
+    def create(user: UserModel) -> dict:
         
         email_exists = UserActions.validations(user)
         if email_exists:
@@ -94,7 +94,7 @@ class UserActions:
     
     
     @staticmethod
-    def custom_jsonify(doc):
+    def custom_jsonify(doc) -> list:
         return json.loads(json_util.dumps(doc))
     
     
