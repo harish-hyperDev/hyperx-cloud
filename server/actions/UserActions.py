@@ -35,7 +35,7 @@ class UserActions:
     
     
     @staticmethod
-    def create(user: UserModel) -> dict:
+    def create(user: UserModel, uid: str) -> dict:
         
         email_exists = UserActions.validations(user)
         if email_exists:
@@ -83,7 +83,7 @@ class UserActions:
     @staticmethod
     def validations(user: UserModel) -> bool:
         
-        found = UserActions.get_documents_count( db[UserActions.collection].find({"email": user.email}).clone() )
+        found = len(list( db[UserActions.collection].find({"email": user.email}).clone() ))
         # print(user.email)
         print("\n\n\n", found, "\n\n\n")
             

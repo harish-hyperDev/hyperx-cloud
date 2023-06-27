@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from django.http import JsonResponse
 from bson import json_util
+from uuid import uuid4
 
 from helpers.db_config import db
 from actions.UserActions import UserActions
+from actions.UserObjectActions import UserObjectActions
 from models.model import UserModel
 
 from auth.verify_token import get_token_header
@@ -33,7 +35,9 @@ async def get_all_users():
 
 @router.post('/register')
 async def create_user(create: UserModel):
-    return UserActions.create(create)
+    uid = uuid4().hex
+    user = UserActions.create(create)
+    return user
 
 
 @router.delete('/{uid}')
