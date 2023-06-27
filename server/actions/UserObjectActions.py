@@ -3,7 +3,7 @@ from bson import json_util
 from uuid import uuid4
 
 from helpers.db_config import db
-from models.model import UserModel, UserObjectsModel
+from models.model import UserObjectsModel
 
 
 class UserObjectActions:
