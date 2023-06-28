@@ -58,7 +58,7 @@ class UserActions:
         
         # Add user to database
         result = db[UserActions.collection].insert_one(u)
-        user = UserActions.get(u['email'])
+        user = UserActions.get(email=u['email'])
         
         if user == UserResponse.USER_NOT_FOUND:
             return UserResponse.USER_NOT_CREATED

@@ -42,7 +42,7 @@ class UserObjectActions:
     def validations(validate_obj: UserObjectModel):
         uid = validate_obj['owner_id']
         
-        result = UserActions.get(uid)
+        result = UserActions.get(id=uid)
         if result != UserResponse.USER_NOT_FOUND:
             return False
         
