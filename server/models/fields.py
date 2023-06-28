@@ -3,6 +3,9 @@ from pydantic import Field
 
 
 class UserFields:
+    _id = Field(
+        description="Unique ID of User"
+    )
     name = Field(
         description="Name of the user",
         example="John Smith"
