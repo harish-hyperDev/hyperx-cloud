@@ -24,22 +24,27 @@ Starting of all routes with prefix "/users"
 '''
 
 @router.get('/get/{uid}', status_code=status.HTTP_302_FOUND)
-async def get_user(uid: str):
+async def get_user(uid: str, response: Response) -> dict:
     return UserActions.get(uid)
 
 
 @router.get('/all', status_code=status.HTTP_200_OK)
-async def get_all_users():
+async def get_all_users() -> list:
     return await UserActions.list()
     
 
 @router.post('/register', status_code=status.HTTP_201_CREATED)
-async def create_user(create: UserModel):
+async def create_user(create: UserModel, response: Response) -> dict:
     uid = uuid4().hex
-    user = UserActions.create(create, uid)
-    return user
+    result = UserActions.create(create, uid)
+    
+    response.status_code = result['status']
+    return result
 
 
 @router.delete('/{uid}', status_code=status.HTTP_200_OK)
-async def delete_user(uid: str):
-    return UserActions.delete(uid)
+async def delete_user(uid: str, response: Response) -> dict:
+    result = UserActions.delete(uid)
+    response.status_code = result['status']
+    
+    return result

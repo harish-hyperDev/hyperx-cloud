@@ -8,6 +8,12 @@ class UserResponse:
         'message': "User Created"
     }
     
+    USER_NOT_CREATED = {
+        'status': status.HTTP_409_CONFLICT,
+        'key': 'id',
+        'message': 'User is Not Created'
+    }
+    
     USER_ALREADY_EXISTS = {
         'status': status.HTTP_409_CONFLICT,
         'key': 'email',
@@ -16,7 +22,13 @@ class UserResponse:
     
     USER_NOT_FOUND = {
         'status': status.HTTP_404_NOT_FOUND,
-        'key': '_id',
+        'key': 'id',
         'message': 'User Not Found'
+    }
+    
+    USER_DELETED = {
+        'status': status.HTTP_200_OK,
+        'key': 'id',
+        'message': 'User Deleted'
     }
     
