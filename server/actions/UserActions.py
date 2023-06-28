@@ -38,7 +38,6 @@ class UserActions:
     def create(user: UserModel, uid: str) -> dict:
         
         email_exists = UserActions.validations(user)
-        print(email_exists)
         if email_exists:
             return UserResponse.USER_ALREADY_EXISTS
         
@@ -54,12 +53,12 @@ class UserActions:
         # Add user to database
         result = db[UserActions.collection].insert_one(u)
         
-        verify = UserActions.get(result.inserted_id)
+        user = UserActions.get(result.inserted_id)
         
-        if verify != UserResponse.USER_NOT_CREATED:
-            return UserResponse.USER_CREATED
+        if user != UserResponse.USER_NOT_CREATED:
+            return UserResponse.USER_CREATED, user
         
-        return verify
+        return user
     
     @staticmethod
     def delete(uid: str) -> dict:

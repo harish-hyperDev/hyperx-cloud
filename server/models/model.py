@@ -11,8 +11,8 @@ class UserModel(BaseModel):
     # data_limit: float = UserFields.data_limit
 
     
-class UserObjectsModel(BaseModel):
-    uid: Optional[str]
+class UserObjectModel(BaseModel):
+    owner_id: Optional[str]
     name: str
     objects: list
     free_space_remaining: float

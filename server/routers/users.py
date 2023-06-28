@@ -36,7 +36,11 @@ async def get_all_users() -> list:
 @router.post('/register', status_code=status.HTTP_201_CREATED)
 async def create_user(create: UserModel, response: Response) -> dict:
     uid = uuid4().hex
-    result = UserActions.create(create, uid)
+    result, created_user = UserActions.create(create, uid)
+    
+    if result['status'] == status.HTTP_201_CREATED:
+        uobj = UserObjectActions.create_user_object_template(uid, created_user.name, created_user.data_limit)
+        uobj_result = UserObjectActions.create(uobj)
     
     response.status_code = result['status']
     return result
