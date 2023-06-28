@@ -11,6 +11,16 @@ from models.model import UserModel
 from auth.verify_token import get_token_header
 # import json
 
+import re
+
+def email_validation(email):
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+ 
+    if(re.fullmatch(regex, email)):
+        return True
+
+    return False
+
 router = APIRouter(
     prefix="/users",
     tags=["users"],
@@ -23,9 +33,13 @@ Starting of all routes with prefix "/users"
 
 '''
 
-@router.get('/get/{uid}', status_code=status.HTTP_302_FOUND)
-async def get_user(uid: str, response: Response) -> dict:
-    return UserActions.get(uid)
+@router.get('/get/{arg}', status_code=status.HTTP_302_FOUND)
+async def get_user(arg: str, response: Response) -> dict:
+    is_arg_email = email_validation(arg)
+    if is_arg_email:
+        return UserActions.get(email=arg)
+    else:
+        return UserActions.get(id=arg)
 
 
 @router.get('/all', status_code=status.HTTP_200_OK)
@@ -39,7 +53,7 @@ async def create_user(create: UserModel, response: Response) -> dict:
     result, created_user = UserActions.create(create, uid)
     
     if result['status'] == status.HTTP_201_CREATED:
-        uobj = UserObjectActions.create_user_object_template(uid, created_user.name, created_user.data_limit)
+        uobj = UserObjectActions.user_object_template(uid, created_user['name'], created_user['data_limit'])
         uobj_result = UserObjectActions.create(uobj)
     
     response.status_code = result['status']

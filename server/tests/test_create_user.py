@@ -9,9 +9,9 @@ def test_create_user():
     user_id = uuid4().hex
     
     create = {
-        "name": "test program3",
-        "email": "test_program51@aloha.com",
-        "password": "test",
+        "name": "test python user",
+        "email": "test_py@aloha.com",
+        "password": "test123",
         "type": "free-tier"
     }
     

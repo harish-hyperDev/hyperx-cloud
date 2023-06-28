@@ -1,4 +1,3 @@
-from fastapi import HTTPException, status
 from bson import json_util
 
 from helpers.db_config import db
@@ -13,14 +12,21 @@ class UserActions:
     collection = "Users"
     
     @staticmethod
-    def get(uid: str) -> dict:
-
-        document = db[UserActions.collection].find({"_id": uid})
+    def get(**kwargs) -> dict:
+        
+        document = {}
+        
+        if 'email' in kwargs:
+            document = db[UserActions.collection].find({"email": kwargs['email']})
+            
+        elif 'id' in kwargs:
+            document = db[UserActions.collection].find({"_id": kwargs['id']})
+        
         
         json_document = UserActions.custom_jsonify(document)
         
         if json_document == []:
-            return UserResponse.USER_NOT_CREATED
+            return UserResponse.USER_NOT_FOUND
         
         return json_document[0]
 
@@ -52,13 +58,12 @@ class UserActions:
         
         # Add user to database
         result = db[UserActions.collection].insert_one(u)
+        user = UserActions.get(u['email'])
         
-        user = UserActions.get(result.inserted_id)
+        if user == UserResponse.USER_NOT_FOUND:
+            return UserResponse.USER_NOT_CREATED
         
-        if user != UserResponse.USER_NOT_CREATED:
-            return UserResponse.USER_CREATED, user
-        
-        return user
+        return UserResponse.USER_CREATED, user
     
     @staticmethod
     def delete(uid: str) -> dict:
