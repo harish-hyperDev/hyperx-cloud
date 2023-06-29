@@ -12,7 +12,8 @@ class UserModel(BaseModel):
 
     
 class UserObjectModel(BaseModel):
-    owner_id: Optional[str]
+    _id: Optional[str]
+    owner_id: str
     name: str
     objects: list
     free_space_remaining: float

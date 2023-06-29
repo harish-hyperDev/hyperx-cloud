@@ -33,6 +33,7 @@ class UserObjectActions:
             [user for user in users]
         )
     
+    
     '''
     FUNCTION to create a user object in UserObjects collection
     RETURNS dict
@@ -45,6 +46,20 @@ class UserObjectActions:
             return UserResponse.USER_NOT_FOUND
         
         result = db[UserObjectActions.collection].insert_one(uobj)
+        
+        if not result.acknowledged:
+            return UserObjectResponse.OBJECT_NOT_CREATED
+        
+        return UserObjectResponse.OBJECT_CREATED
+    
+    
+    @staticmethod
+    async def update_user_object(owner_id: str, update: dict):
+        result = UserObjectActions.update(owner_id, update)
+        
+        if not result.acknowledged:
+            return UserObjectResponse.OBJECT_NOT_DELETED
+    
     
     '''
     FUNCTION to create a user object

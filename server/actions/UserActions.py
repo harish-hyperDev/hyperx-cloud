@@ -58,12 +58,19 @@ class UserActions:
         
         # Add user to database
         result = db[UserActions.collection].insert_one(u)
-        user = UserActions.get(email=u['email'])
         
-        if user == UserResponse.USER_NOT_FOUND:
+        if not result.acknowledged:
             return UserResponse.USER_NOT_CREATED
         
+        user = UserActions.get(email=u['email'])
+        
         return UserResponse.USER_CREATED, user
+    
+    
+    @staticmethod
+    def update_user():
+        pass
+    
     
     @staticmethod
     def delete(uid: str) -> dict:
@@ -71,7 +78,6 @@ class UserActions:
         
         if not result.deleted_count:
             return UserResponse.USER_NOT_FOUND
-        
         
         return UserResponse.USER_DELETED
     

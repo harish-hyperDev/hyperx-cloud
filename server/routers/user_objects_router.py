@@ -18,6 +18,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+
 @router.get('/get/{owner_id}', status_code=status.HTTP_302_FOUND)
 async def get_user_object(owner_id: str, response: Response) -> dict:
     result = UserObjectActions.get(owner_id)
@@ -30,9 +31,23 @@ async def get_user_object(owner_id: str, response: Response) -> dict:
     
     return result
 
+
 @router.get('/all', status_code=status.HTTP_200_OK)
 async def get_all_objects() -> list:
     return await UserObjectActions.list()
+
+
+@router.patch('/{owner_id}')
+async def update_object(owner_id: str, update: dict, response: Response) -> dict:
+    result = UserObjectActions.update(owner_id, update)
+    
+    try:
+        if result['status'] == 404:
+            response.status_code = result['status']
+    except:
+        pass
+    
+    return result
 
 @router.delete('/{owner_id}')
 async def delete_object(owner_id: str, response: Response) -> dict:

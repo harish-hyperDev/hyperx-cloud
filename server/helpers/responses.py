@@ -45,3 +45,15 @@ class UserObjectResponse:
         'key': 'owner_id',
         'message': 'Object Not Deleted'
     }
+    
+    OBJECT_CREATED = {
+        'status': status.HTTP_201_CREATED,
+        'key': 'owner_id',
+        'message': 'Object is Created'
+    }
+    
+    OBJECT_NOT_CREATED = {
+        'status': status.HTTP_409_CONFLICT,
+        'key': 'owner_id',
+        'message': 'Object is Created'
+    }
