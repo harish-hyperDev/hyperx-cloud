@@ -46,7 +46,7 @@ async def get_user(arg: str, response: Response) -> dict:
 async def get_all_users() -> list:
     return await UserActions.list()
     
-
+    
 @router.post('/register', status_code=status.HTTP_201_CREATED)
 async def create_user(create: UserModel, response: Response) -> dict:
     uid = uuid4().hex

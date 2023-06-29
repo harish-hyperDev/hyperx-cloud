@@ -32,3 +32,16 @@ class UserResponse:
         'message': 'User Deleted'
     }
     
+class UserObjectResponse:
+    
+    OBJECT_NOT_FOUND = {
+        'status': status.HTTP_404_NOT_FOUND,
+        'key': 'owner_id',
+        'message': 'Object Not Found'
+    }
+    
+    OBJECT_NOT_DELETED = {
+        'status': status.HTTP_400_BAD_REQUEST,
+        'key': 'owner_id',
+        'message': 'Object Not Deleted'
+    }
