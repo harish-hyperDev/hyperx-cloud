@@ -66,6 +66,16 @@ class UserActions:
         
         return UserResponse.USER_CREATED, user
     
+    @staticmethod
+    def login_user(user: dict):
+        result = UserActions.get(email=user['email'])
+        
+        if result == UserResponse.USER_NOT_FOUND:
+            return UserResponse.USER_NOT_FOUND
+
+        print(result["_id"])
+        return result
+        
     
     @staticmethod
     def update_user():
