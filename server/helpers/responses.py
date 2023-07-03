@@ -21,7 +21,7 @@ class UserResponse:
     }
     
     USER_NOT_FOUND = {
-        'status': status.HTTP_404_NOT_FOUND,
+        'status': status.HTTP_204_NO_CONTENT,
         'key': 'id',
         'message': 'User Not Found'
     }
