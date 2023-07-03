@@ -15,18 +15,22 @@ class UserActions:
     def get(**kwargs) -> dict:
         
         document = {}
+        key = ''
         
         if 'email' in kwargs:
+            key = 'email'
             document = db[UserActions.collection].find({"email": kwargs['email']})
             
         elif 'id' in kwargs:
+            key = 'id'
             document = db[UserActions.collection].find({"_id": kwargs['id']})
         
         
         json_document = UserActions.custom_jsonify(document)
         
         if json_document == []:
-            return UserResponse.USER_NOT_FOUND
+            print(UserResponse.USER_NOT_FOUND(key))
+            return UserResponse.USER_NOT_FOUND(key)
         
         return json_document[0]
 
@@ -66,6 +70,16 @@ class UserActions:
         
         return UserResponse.USER_CREATED, user
     
+    @staticmethod
+    def login_user(user: dict):
+        result = UserActions.get(email=user['email'])
+        
+        if result == UserResponse.USER_NOT_FOUND('email'):
+            return UserResponse.USER_NOT_FOUND('email')
+
+        print(result["_id"])
+        return result
+        
     
     @staticmethod
     def update_user():
@@ -77,7 +91,7 @@ class UserActions:
         result = db[UserActions.collection].delete_one({'_id': uid})
         
         if not result.deleted_count:
-            return UserResponse.USER_NOT_FOUND
+            return UserResponse.USER_NOT_FOUND('_id')
         
         return UserResponse.USER_DELETED
     

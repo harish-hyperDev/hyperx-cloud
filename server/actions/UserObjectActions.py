@@ -89,7 +89,7 @@ class UserObjectActions:
         uid = validate_obj['owner_id']
         
         result = UserActions.get(id=uid)
-        if result != UserResponse.USER_NOT_FOUND:
+        if result != UserResponse.USER_NOT_FOUND('id'):
             return False
         
         return True

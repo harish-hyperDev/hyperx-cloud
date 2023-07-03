@@ -6,6 +6,7 @@ from uuid import uuid4
 from helpers.db_config import db
 from actions.UserActions import UserActions
 from actions.UserObjectActions import UserObjectActions
+from helpers.responses import UserResponse
 from models.model import UserModel
 
 from auth.verify_token import get_token_header
@@ -59,6 +60,22 @@ async def create_user(create: UserModel, response: Response) -> dict:
     response.status_code = result['status']
     return result
 
+
+@router.post('/login', status_code=status.HTTP_302_FOUND)
+async def login(cred: dict, response: Response) -> dict:
+    result = UserActions.login_user(cred)
+    user_id = {}
+        
+    try:
+        response.status_code = result['status']
+    except:
+        pass
+    
+    if result != UserResponse.USER_NOT_FOUND('email'):
+        user_id['_id'] = result['_id']
+        return user_id
+    
+    return result
 
 @router.delete('/{uid}', status_code=status.HTTP_200_OK)
 async def delete_user(uid: str, response: Response) -> dict:
