@@ -20,11 +20,12 @@ class UserResponse:
         'message': "Email is already taken"
     }
     
-    USER_NOT_FOUND = {
-        'status': status.HTTP_204_NO_CONTENT,
-        'key': 'id',
-        'message': 'User Not Found'
-    }
+    def USER_NOT_FOUND(err_key): 
+        return {
+            'status': status.HTTP_204_NO_CONTENT,
+            'key': err_key,
+            'message': 'User Not Found'
+        }
     
     USER_DELETED = {
         'status': status.HTTP_200_OK,

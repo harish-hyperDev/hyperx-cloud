@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
 import axios from 'axios'
 
 import formReducer from '../reducers/formReducer'
@@ -9,15 +9,17 @@ const LandingPage = () => {
   const initialFormState = { email: '', password: '' }
   const [formState, dispatch] = useReducer(formReducer, initialFormState)
 
+  const [invalidLogin, setInvalidLogin] = useState(false)
+
   
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     console.log(formState)
-    axios.post(USERS_URL)
+    axios.post(`${USERS_URL}/login`)
       .then((res) => {
-        
+        console.log(res)
       })
   }
 
@@ -51,6 +53,10 @@ const LandingPage = () => {
                         style={{width: "185px"}} alt="logo" />
                       <h4 className="mt-1 mb-5 pb-1">Hyper Wasabi</h4>
                     </div>
+
+                    { invalidLogin ? <div className='text-center p-3 mb-4' style={{ backgroundColor: 'lightpink', color: 'darkred' }}>
+                      Incorrect Email or Password
+                    </div> : null}
 
                     <form onSubmit={onSubmit}>
                       {/* <h6 className="mb-4">Please login to your account</h6> */}

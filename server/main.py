@@ -1,4 +1,6 @@
 from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from auth.verify_token import get_query_token
 
 import routers.s3_objects_router as s3_objects_router
@@ -10,6 +12,21 @@ import uvicorn
 PORT = 8000
 
 app = FastAPI(dependencies=[Depends(get_query_token)])
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    
+    allow_origins=origins,
+    allow_credentials=True,
+    
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(s3_objects_router.router)
 app.include_router(users_router.router)

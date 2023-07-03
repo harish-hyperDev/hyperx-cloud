@@ -60,8 +60,9 @@ async def create_user(create: UserModel, response: Response) -> dict:
     response.status_code = result['status']
     return result
 
+
 @router.post('/login', status_code=status.HTTP_302_FOUND)
-async def login_user(cred: dict, response: Response) -> dict:
+async def login(cred: dict, response: Response) -> dict:
     result = UserActions.login_user(cred)
     user_id = {}
         
@@ -70,7 +71,7 @@ async def login_user(cred: dict, response: Response) -> dict:
     except:
         pass
     
-    if result != UserResponse.USER_NOT_FOUND:
+    if result != UserResponse.USER_NOT_FOUND('email'):
         user_id['_id'] = result['_id']
         return user_id
     
