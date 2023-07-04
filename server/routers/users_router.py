@@ -34,7 +34,7 @@ Starting of all routes with prefix "/users"
 
 '''
 
-@router.get('/get/{arg}', status_code=status.HTTP_302_FOUND)
+@router.get('/get/{arg}', status_code=status.HTTP_200_OK)
 async def get_user(arg: str, response: Response) -> dict:
     is_arg_email = email_validation(arg)
     if is_arg_email:
@@ -61,8 +61,9 @@ async def create_user(create: UserModel, response: Response) -> dict:
     return result
 
 
-@router.post('/login', status_code=status.HTTP_302_FOUND)
+@router.post('/login', status_code=status.HTTP_200_OK)
 async def login(cred: dict, response: Response) -> dict:
+    print("Received : ", cred)
     result = UserActions.login_user(cred)
     user_id = {}
         
@@ -71,7 +72,7 @@ async def login(cred: dict, response: Response) -> dict:
     except:
         pass
     
-    if result != UserResponse.USER_NOT_FOUND('email'):
+    if result != UserResponse.USER_NOT_FOUND('email') and result != UserResponse.USER_NOT_FOUND('password'):
         user_id['_id'] = result['_id']
         return user_id
     

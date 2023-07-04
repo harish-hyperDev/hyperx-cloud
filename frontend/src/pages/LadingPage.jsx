@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import axios from 'axios'
 
 import formReducer from '../reducers/formReducer'
@@ -11,16 +11,38 @@ const LandingPage = () => {
 
   const [invalidLogin, setInvalidLogin] = useState(false)
 
+  const config = {
+    headers: {
+      'X-Token': process.env.REACT_APP_X_TOKEN,
+      'query': process.env.REACT_APP_QUERY
+    }
+  }
   
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formState)
-    axios.post(`${USERS_URL}/login`)
-      .then((res) => {
-        console.log(res)
-      })
+    // console.log(formState)
+
+    const config = {
+      headers: {
+        'X-Token': process.env.REACT_APP_X_TOKEN,
+        'query': process.env.REACT_APP_QUERY
+      }
+    }
+
+    const userData = await axios.post(`http://localhost:8000/users/login`, {
+        email: formState.email,
+        password: formState.password
+      }, 
+      config
+    )
+
+    if (userData.data._id) {
+      setInvalidLogin(false)
+    } else { 
+      setInvalidLogin(true)
+    }
   }
 
   const handleInputChange = (e) => {
@@ -30,13 +52,12 @@ const LandingPage = () => {
       field: e.target.name,
       payload: e.target.value
     })
-
   }
+
 
   const gradientCustom = {
     background: "linear-gradient(109.6deg, rgb(187, 0, 212) 11.2%, rgb(32, 38, 238) 91.1%)"
   }
-
 
   return (
     <section className="h-100 w-100 gradient-form" style={{backgroundColor: "#eee"}}>

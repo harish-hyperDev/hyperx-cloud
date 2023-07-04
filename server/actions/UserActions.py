@@ -77,6 +77,9 @@ class UserActions:
         if result == UserResponse.USER_NOT_FOUND('email'):
             return UserResponse.USER_NOT_FOUND('email')
 
+        if result['password'] != user['password']:
+            return UserResponse.USER_NOT_FOUND('password')
+
         print(result["_id"])
         return result
         
