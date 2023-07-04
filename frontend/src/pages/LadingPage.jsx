@@ -1,47 +1,35 @@
 import React, { useReducer, useState, useEffect } from 'react'
 import axios from 'axios'
 
+import { useNavigate } from 'react-router'
+
 import formReducer from '../reducers/formReducer'
-import { USERS_URL } from '../urls/allUrls'
+import { USERS_URL } from '../utils/allUrls'
+import { CUSTOM_HEADERS } from '../utils/axiosHeaders'
 
 const LandingPage = () => {
 
   const initialFormState = { email: '', password: '' }
   const [formState, dispatch] = useReducer(formReducer, initialFormState)
 
-  const [invalidLogin, setInvalidLogin] = useState(false)
+  const [invalidLoginError, setInvalidLoginError] = useState(false)
 
-  const config = {
-    headers: {
-      'X-Token': process.env.REACT_APP_X_TOKEN,
-      'query': process.env.REACT_APP_QUERY
-    }
-  }
-  
-
+  const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log(formState)
-
-    const config = {
-      headers: {
-        'X-Token': process.env.REACT_APP_X_TOKEN,
-        'query': process.env.REACT_APP_QUERY
-      }
-    }
-
-    const userData = await axios.post(`http://localhost:8000/users/login`, {
+    const userData = await axios.post(`${USERS_URL}/login`, {
         email: formState.email,
         password: formState.password
       }, 
-      config
+      CUSTOM_HEADERS
     )
 
     if (userData.data._id) {
-      setInvalidLogin(false)
+      setInvalidLoginError(false)
+      navigate('/user')
     } else { 
-      setInvalidLogin(true)
+      setInvalidLoginError(true)
     }
   }
 
@@ -75,7 +63,7 @@ const LandingPage = () => {
                       <h4 className="mt-1 mb-5 pb-1">Hyper Wasabi</h4>
                     </div>
 
-                    { invalidLogin ? <div className='text-center p-3 mb-4' style={{ backgroundColor: 'lightpink', color: 'darkred' }}>
+                    { invalidLoginError ? <div className='text-center p-3 mb-4' style={{ backgroundColor: 'lightpink', color: 'darkred' }}>
                       Incorrect Email or Password
                     </div> : null}
 

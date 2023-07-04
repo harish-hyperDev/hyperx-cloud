@@ -1,7 +1,7 @@
 import { actionTypes } from "../constants/actionTypes"
 
 const initialState = {
-    posts: [
+    objects: [
         {
             albumId: 1,
             id: 2,
@@ -19,10 +19,14 @@ const initialState = {
     ]
 }
 
-export const postReducer = (state = initialState, {type, payload}) => {
+export const userObjectsReducer = (state = initialState, {type, payload}) => {
     switch(type) {
-        case actionTypes.SELECTED_POSTS:
-            return state;
+        case actionTypes.CREATE_USER_OBJECTS:
+            return {
+                ...state,
+                objects: [...state.objects, payload]
+                
+            };
         default:
             return state;
     }
