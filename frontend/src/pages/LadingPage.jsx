@@ -2,6 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react'
 import axios from 'axios'
 
 import { useNavigate } from 'react-router'
+import { useDispatch } from 'react-redux'
 
 import formReducer from '../reducers/formReducer'
 import { USERS_URL } from '../utils/allUrls'
@@ -10,11 +11,11 @@ import { CUSTOM_HEADERS } from '../utils/axiosHeaders'
 const LandingPage = () => {
 
   const initialFormState = { email: '', password: '' }
-  const [formState, dispatch] = useReducer(formReducer, initialFormState)
-
+  const [formState, formDispatch] = useReducer(formReducer, initialFormState)
   const [invalidLoginError, setInvalidLoginError] = useState(false)
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,6 +27,7 @@ const LandingPage = () => {
     )
 
     if (userData.data._id) {
+      dispatch({ type: 'LOGIN_USER' , payload: userData.data._id })
       setInvalidLoginError(false)
       navigate('/user')
     } else { 
@@ -35,7 +37,7 @@ const LandingPage = () => {
 
   const handleInputChange = (e) => {
     e.preventDefault();
-    dispatch({
+    formDispatch({
       type: 'input',
       field: e.target.name,
       payload: e.target.value
