@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import { postReducer } from './postReducer';
+import { userObjectsReducer } from './userObjectReducer.js';
+import { userReducer } from './userReducer.js';
 
 const reducers = combineReducers({
-    allPosts: postReducer,
+    allObjects: userObjectsReducer,
+    userOps: userReducer
 })
 
 export default reducers;

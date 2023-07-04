@@ -1,26 +1,36 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import axios from 'axios'
 
+import { useNavigate } from 'react-router'
+
 import formReducer from '../reducers/formReducer'
-import { USERS_URL } from '../urls/allUrls'
+import { USERS_URL } from '../utils/allUrls'
+import { CUSTOM_HEADERS } from '../utils/axiosHeaders'
 
 const LandingPage = () => {
 
   const initialFormState = { email: '', password: '' }
   const [formState, dispatch] = useReducer(formReducer, initialFormState)
 
-  const [invalidLogin, setInvalidLogin] = useState(false)
+  const [invalidLoginError, setInvalidLoginError] = useState(false)
 
-  
-
-  const onSubmit = (e) => {
+  const navigate = useNavigate();
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formState)
-    axios.post(`${USERS_URL}/login`)
-      .then((res) => {
-        console.log(res)
-      })
+    const userData = await axios.post(`${USERS_URL}/login`, {
+        email: formState.email,
+        password: formState.password
+      }, 
+      CUSTOM_HEADERS
+    )
+
+    if (userData.data._id) {
+      setInvalidLoginError(false)
+      navigate('/user')
+    } else { 
+      setInvalidLoginError(true)
+    }
   }
 
   const handleInputChange = (e) => {
@@ -30,13 +40,12 @@ const LandingPage = () => {
       field: e.target.name,
       payload: e.target.value
     })
-
   }
+
 
   const gradientCustom = {
     background: "linear-gradient(109.6deg, rgb(187, 0, 212) 11.2%, rgb(32, 38, 238) 91.1%)"
   }
-
 
   return (
     <section className="h-100 w-100 gradient-form" style={{backgroundColor: "#eee"}}>
@@ -54,7 +63,7 @@ const LandingPage = () => {
                       <h4 className="mt-1 mb-5 pb-1">Hyper Wasabi</h4>
                     </div>
 
-                    { invalidLogin ? <div className='text-center p-3 mb-4' style={{ backgroundColor: 'lightpink', color: 'darkred' }}>
+                    { invalidLoginError ? <div className='text-center p-3 mb-4' style={{ backgroundColor: 'lightpink', color: 'darkred' }}>
                       Incorrect Email or Password
                     </div> : null}
 

@@ -11,8 +11,11 @@ import DetailsBar from '../components/DetailsBar';
 
 const Data = ({ setSelectedPost }) => {
 
-  const posts = useSelector((state) => state.allPosts.posts);
+  const posts = useSelector((state) => state.allObjects.objects);
+  const loggedUser = useSelector((state) => state.userOps.loggedInUserID);
+
   console.log(posts)
+  console.log("loggedUser : ", loggedUser)
 
   return (
     <div className='d-flex flex-row flex-wrap overflow-x-hidden overflow-y-scroll' style={{ height: '90vh' }}>
@@ -25,6 +28,7 @@ const Data = ({ setSelectedPost }) => {
     </div>
   )
 }
+
 
 const UserHome = () => {
   const [selectedPost, setSelectedPost] = useState({})
