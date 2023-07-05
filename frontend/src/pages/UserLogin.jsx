@@ -13,24 +13,29 @@ const UserLogin = () => {
   const initialFormState = { email: '', password: '' }
   const [formState, formDispatch] = useReducer(formReducer, initialFormState)
   const [invalidLoginError, setInvalidLoginError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  
+
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     const userData = await axios.post(`${USERS_URL}/login`, {
-        email: formState.email,
-        password: formState.password
-      }, 
+      email: formState.email,
+      password: formState.password
+    },
       CUSTOM_HEADERS
     )
 
+    setIsLoading(false)
     if (userData.data._id) {
-      dispatch({ type: 'LOGIN_USER' , payload: userData.data._id })
+      dispatch({ type: 'LOGIN_USER', payload: userData.data._id })
       setInvalidLoginError(false)
       navigate('/user')
-    } else { 
+    } else {
       setInvalidLoginError(true)
     }
   }
@@ -50,7 +55,7 @@ const UserLogin = () => {
   }
 
   return (
-    <section className="h-100 w-100 gradient-form" style={{backgroundColor: "#eee"}}>
+    <section className="h-100 w-100 gradient-form" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-xl-10">
@@ -61,11 +66,11 @@ const UserLogin = () => {
 
                     <div className="text-center">
                       <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                        style={{width: "185px"}} alt="logo" />
+                        style={{ width: "185px" }} alt="logo" />
                       <h4 className="mt-1 mb-5 pb-1">Hyper Wasabi</h4>
                     </div>
 
-                    { invalidLoginError ? <div className='text-center p-3 mb-4' style={{ backgroundColor: 'lightpink', color: 'darkred' }}>
+                    {invalidLoginError ? <div className='text-center p-3 mb-4' style={{ backgroundColor: 'lightpink', color: 'darkred' }}>
                       Incorrect Email or Password
                     </div> : null}
 
@@ -74,17 +79,17 @@ const UserLogin = () => {
 
                       <div className="form-outline mb-4">
                         <label className="form-label mx-1" htmlFor="form2Example11">Username</label>
-                        <input type="email" id="form2Example11" className="form-control" value={formState.email} onChange={ (e) => {handleInputChange(e)} } name='email'
+                        <input type="email" id="form2Example11" className="form-control" value={formState.email} onChange={(e) => { handleInputChange(e) }} name='email'
                           placeholder="Username or Email Address" />
                       </div>
 
                       <div className="form-outline mb-4">
                         <label className="form-label mx-1" htmlFor="form2Example22">Password</label>
-                        <input type="password" id="form2Example22" className="form-control" value={formState.password} onChange={ (e) => {handleInputChange(e)} } name='password' />
+                        <input type="password" id="form2Example22" className="form-control" value={formState.password} onChange={(e) => { handleInputChange(e) }} name='password' />
                       </div>
 
                       <div className="d-flex flex-column text-center pt-1 mb-5 pb-1">
-                        <button className="btn btn-primary btn-block fa-lg mb-3 border-0" style={ gradientCustom } type="submit">Log in</button>
+                        <button className="btn btn-primary btn-block fa-lg mb-3 border-0" style={gradientCustom} type="submit">Log in</button>
                         <a className="text-muted" href="#!">Forgot password?</a>
                       </div>
 
@@ -97,7 +102,7 @@ const UserLogin = () => {
 
                   </div>
                 </div>
-                <div className="col-lg-6 d-flex align-items-center" style={ gradientCustom }>
+                <div className="col-lg-6 d-flex align-items-center" style={gradientCustom}>
                   <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">We are more than just a company</h4>
                     <p className="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod

@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, Response, status, Form, File, UploadFile
+from typing_extensions import Annotated
 from django.http import JsonResponse
 from bson import json_util
 from uuid import uuid4
@@ -37,7 +38,7 @@ async def get_all_objects() -> list:
     return await UserObjectActions.list()
 
 
-@router.patch('/{owner_id}')
+@router.put('/{owner_id}')
 async def update_object(owner_id: str, update: dict, response: Response) -> dict:
     result = UserObjectActions.update(owner_id, update)
     
@@ -49,6 +50,16 @@ async def update_object(owner_id: str, update: dict, response: Response) -> dict
     
     return result
 
+
+@router.post('/upload')
+async def upload(file: UploadFile):
+    print(file.filename)
+    result = UserObjectActions.upload(file)
+    return result
+    # print(fileName)
+     
+
+
 @router.delete('/{owner_id}')
 async def delete_object(owner_id: str, response: Response) -> dict:
     result = UserObjectActions.delete(owner_id)
@@ -56,6 +67,7 @@ async def delete_object(owner_id: str, response: Response) -> dict:
     try:
         if result['status'] == 404:
             response.status_code = result['status']
+            
     except:
         pass
     

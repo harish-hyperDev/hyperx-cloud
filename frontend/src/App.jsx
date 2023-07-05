@@ -7,6 +7,7 @@ import './App.css'
 import UserHome from './pages/UserHome'
 import UserLogin from './pages/UserLogin';
 import UserRegistration from './pages/UserRegistration';
+import FileUpload from './pages/FileUpload';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' element={<UserLogin />} />
         <Route path='/register' element={<UserRegistration />} />
         <Route path='/user' element={<UserHome/>} />
+        <Route path='/upload' element={<FileUpload/>} />
       </Routes>
     </div>
   )

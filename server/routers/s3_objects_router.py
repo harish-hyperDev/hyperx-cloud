@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
+from botocore.exceptions import ClientError
 
-from helpers.loaders import s3
+from helpers.loaders import s3 as s3_client
 import helpers.config as Config
 import botocore
 
@@ -14,25 +15,27 @@ router = APIRouter(
 
 @router.get("/")
 async def get_all_objects():
-    objects = s3.list_objects_v2(Bucket=Config.WSB_STORAGE_BUCKET_NAME)
+    objects = s3_client.list_objects_v2(Bucket=Config.WSB_STORAGE_BUCKET_NAME)
     return {"Objects" : objects['Contents']}
 
 
-@router.post("/{object_name}")
-async def upload_object():
+@router.post("/")
+async def upload_object(file_object):
     file_path = "<file-to-upload>"
-    key_name = "<key-name>"
+    key_name = file_object
     
-    print(Config.WSB_ACCESS_KEY_ID)
-    # all_items = s3.get_object(Bucket=bucket_name)
-
-    return {"message": "POST"}
+    try:
+        response = s3_client.upload_file(file_object, Config.WSB_STORAGE_BUCKET_NAME, file_object.filename)
+        print(response)
+    except ClientError as e:
+        return False
+    return True
 
 
 @router.get("/download/{object_key}")
 async def download_object(object_key):
     try:
-        s3.download_file(Config.WSB_STORAGE_BUCKET_NAME, object_key, object_key)    #.download_file(KEY, 'my_local_users.ico')
+        s3_client.download_file(Config.WSB_STORAGE_BUCKET_NAME, object_key, object_key)    #.download_file(KEY, 'my_local_users.ico')
         
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
