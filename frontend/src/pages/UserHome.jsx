@@ -9,7 +9,7 @@ import DetailsBar from '../components/DetailsBar';
 
 
 
-const Data = ({ setSelectedPost }) => {
+const Data = () => {
 
   const posts = useSelector((state) => state.allObjects.objects);
   const loggedUser = useSelector((state) => state.userOps.loggedInUserID);
@@ -38,7 +38,7 @@ const UserHome = () => {
       <SideBar />
       <div style={{ margin: '10px 15px' }}>
         <SearchBar />
-          <Data setSelectedPost={setSelectedPost} />
+          <Data />
       </div>
       <DetailsBar selectedPost={selectedPost} />
 
