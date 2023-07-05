@@ -10,6 +10,10 @@ class UserFields:
         description="Name of the user",
         example="John Smith"
     )
+    username = Field(
+        description="Username of the user",
+        example="john-smith-777"
+    )
     email = Field(
         description="Email address of the user",
         example="john@example.com"

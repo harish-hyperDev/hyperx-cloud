@@ -5,6 +5,7 @@ from .fields import UserFields
 class UserModel(BaseModel):
     _id: Optional[str] = UserFields._id
     name: str = UserFields.name
+    username: str = UserFields.username
     email: str = UserFields.email
     password: str = UserFields.password
     type: str = UserFields.type
