@@ -1,11 +1,11 @@
 from bson import json_util
 
 from botocore.exceptions import ClientError
-from fastapi import UploadFile
+from fastapi import UploadFile, File
 
 from helpers.db_config import db
 from helpers.responses import UserResponse, UserObjectResponse
-from models.model import UserObjectModel
+from models.model import UserObjectModel, FileUploadModel
 from actions.UserActions import UserActions
 from helpers.loaders import s3 as s3_client
 import helpers.config as Config
@@ -82,6 +82,7 @@ class UserObjectActions:
         
         return user_object
     
+    
     @staticmethod
     def delete(owner_id: str):
         result = db[UserObjectActions.collection].delete_one({"owner_id": owner_id})
@@ -89,16 +90,20 @@ class UserObjectActions:
         if not result.deleted_count:
             return UserObjectResponse.OBJECT_NOT_FOUND
         
+        
     @staticmethod
-    def upload(file: UploadFile):
-        print(file)
+    async def upload(file: FileUploadModel) -> bool:
+        
+        file_bytes = await file.read()
+    
         try:
-            response = s3_client.upload_file(file, Config.WSB_STORAGE_BUCKET_NAME, file.filename)
+            response = s3_client.put_object(Body=file_bytes, Bucket=Config.WSB_STORAGE_BUCKET_NAME, Key=file.filename)
             print(response)
         except ClientError as e:
             return False
         
-        return response
+        return True
+    
     
     @staticmethod
     def validations(validate_obj: UserObjectModel):
@@ -116,9 +121,3 @@ class UserObjectActions:
         return json.loads(json_util.dumps(doc))
     
 
-
-def convertToBinaryData(filename):
-    # Convert digital data to binary format
-    with open(filename, 'rb') as file:
-        binaryData = file.read()
-    return binaryData
