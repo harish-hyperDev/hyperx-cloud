@@ -12,7 +12,7 @@ function FileUpload() {
         setFile(event.target.files[0])
     }
 
-    function handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault()
 
         const formData = new FormData();
@@ -25,9 +25,10 @@ function FileUpload() {
 
         console.log(MODIFIED_HEADERS)
         console.log(formData)
-        axios.post(`${USER_OBJECTS_URL}/upload`, formData, MODIFIED_HEADERS).then((response) => {
-            console.log(response.data);
-        });
+        await axios.post(`${USER_OBJECTS_URL}/upload`, formData, MODIFIED_HEADERS)
+        .then((response) => {
+            console.log("GOT : ", response.data);
+        })
 
     }
 

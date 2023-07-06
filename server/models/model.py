@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 from .fields import UserFields
+from fastapi import UploadFile, File
 
 class UserModel(BaseModel):
     _id: Optional[str] = UserFields._id
@@ -19,4 +20,10 @@ class UserObjectModel(BaseModel):
     objects: list
     free_space_remaining: float
     total_objects: int
+    
+class FileUploadModel(BaseModel):
+    file: Optional[UploadFile] = File(...)
+    fileName: Optional[str]
+
+
     

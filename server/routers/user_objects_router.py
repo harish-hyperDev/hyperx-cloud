@@ -3,11 +3,17 @@ from typing_extensions import Annotated
 from django.http import JsonResponse
 from bson import json_util
 from uuid import uuid4
+from botocore.exceptions import ClientError
 
 from helpers.db_config import db
 from actions.UserActions import UserActions
 from actions.UserObjectActions import UserObjectActions
-from models.model import UserModel
+from models.model import UserModel, FileUploadModel
+
+
+from helpers.loaders import s3 as s3_client
+import helpers.config as Config
+import io
 
 from auth.verify_token import get_token_header
 
@@ -52,11 +58,10 @@ async def update_object(owner_id: str, update: dict, response: Response) -> dict
 
 
 @router.post('/upload')
-async def upload(file: UploadFile):
-    print(file.filename)
+async def upload(file: FileUploadModel) -> bool:
+    
     result = UserObjectActions.upload(file)
     return result
-    # print(fileName)
      
 
 

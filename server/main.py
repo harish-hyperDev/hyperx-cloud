@@ -13,10 +13,12 @@ PORT = 8000
 
 app = FastAPI(dependencies=[Depends(get_query_token)])
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-]
+# origins = [
+#     "http://localhost",
+#     "http://localhost:3000",
+# ]
+
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
