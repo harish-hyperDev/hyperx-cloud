@@ -23,7 +23,7 @@ class UserObjectModel(BaseModel):
     
 class FileUploadModel(BaseModel):
     file: Optional[UploadFile] = File(...)
-    fileName: Optional[str]
+    # fileName: Optional[str]
 
 
     

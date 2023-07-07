@@ -33,7 +33,7 @@ function FileUpload() {
     }
 
     return (
-        <div className="App">
+        <div className="file-upload position-absolute d-flex m-lg-3">
             <form onSubmit={handleSubmit}>
                 <h1>React File Upload</h1>
                 <input type="file" onChange={handleChange} />

@@ -92,8 +92,7 @@ class UserObjectActions:
         
         
     @staticmethod
-    async def upload(file: FileUploadModel) -> bool:
-        
+    async def upload(file: UploadFile = File(...)) -> bool:
         file_bytes = await file.read()
     
         try:
