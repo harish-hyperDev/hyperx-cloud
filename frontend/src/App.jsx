@@ -15,14 +15,12 @@ function App() {
 
   // const { collapseSidebar } = useProSidebar();
   return (
-    <div style={{ display: 'flex' }}>
-      <Routes>
-        <Route path='/' element={<UserLogin />} />
-        <Route path='/register' element={<UserRegistration />} />
-        <Route path='/user' element={<UserHome/>} />
-        <Route path='/upload' element={<FileUpload/>} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path='/' element={<UserLogin />} />
+      <Route path='/register' element={<UserRegistration />} />
+      <Route path='/user' element={<UserHome/>} />
+      <Route path='/upload' element={<FileUpload/>} />
+    </Routes>
   )
 }
 

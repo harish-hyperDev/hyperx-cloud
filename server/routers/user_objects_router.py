@@ -58,9 +58,9 @@ async def update_object(owner_id: str, update: dict, response: Response) -> dict
 
 
 @router.post('/upload')
-async def upload(file: FileUploadModel) -> bool:
+async def upload(file: UploadFile = File(...)) -> bool:
     
-    result = UserObjectActions.upload(file)
+    result = await UserObjectActions.upload(file)
     return result
      
 
@@ -77,3 +77,12 @@ async def delete_object(owner_id: str, response: Response) -> dict:
         pass
     
     return result
+
+
+
+async def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    # with open(filename, 'rb') as file:
+    #     binaryData = file.read()
+    binaryData = await filename.read()
+    return binaryData

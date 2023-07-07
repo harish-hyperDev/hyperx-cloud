@@ -7,12 +7,12 @@ import { USER_OBJECTS_URL } from '../utils/allUrls'
 function FileUpload() {
     const [file, setFile] = useState()
 
-    function handleChange(event) {
+    function handleFileChange(event) {
         event.preventDefault()
         setFile(event.target.files[0])
     }
 
-    const handleSubmit = async (event) => {
+    const handleFileSubmit = async (event) => {
         event.preventDefault()
 
         const formData = new FormData();
@@ -33,10 +33,10 @@ function FileUpload() {
     }
 
     return (
-        <div className="App">
-            <form onSubmit={handleSubmit}>
+        <div className="file-upload position-absolute d-flex h-50">
+            <form onSubmit={handleFileSubmit}>
                 <h1>React File Upload</h1>
-                <input type="file" onChange={handleChange} />
+                <input type="file" onChange={handleFileChange} />
                 <button type="submit">Upload</button>
             </form>
         </div>
