@@ -1,8 +1,0 @@
-boto3 == 1.26.153
-Django == 4.2.1
-fastapi == 0.97.0
-pydantic == 1.10.9
-pymongo == 4.3.3
-pytest == 7.4.0
-python-dotenv == 1.0.0
-uvicorn == 0.22.0  # or use -- pip install 'uvicorn[standard]'
