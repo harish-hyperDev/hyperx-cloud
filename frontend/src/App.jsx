@@ -5,21 +5,22 @@ import './App.css'
 
 // import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
 import UserHome from './pages/UserHome'
-import LandingPage from './pages/LadingPage';
+import UserLogin from './pages/UserLogin';
 import UserRegistration from './pages/UserRegistration';
+import FileUpload from './pages/FileUpload';
 
 function App() {
 
+  // {process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_MODE : process.env.REACT_APP_PRO_MODE}
 
   // const { collapseSidebar } = useProSidebar();
   return (
-    <div style={{ display: 'flex' }}>
-      <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/register' element={<UserRegistration />} />
-        <Route path='/user' element={<UserHome/>} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path='/' element={<UserLogin />} />
+      <Route path='/register' element={<UserRegistration />} />
+      <Route path='/user' element={<UserHome/>} />
+      <Route path='/upload' element={<FileUpload/>} />
+    </Routes>
   )
 }
 
