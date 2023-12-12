@@ -19,7 +19,7 @@ async function listContents() {
 
 const getObjects = async (req, res) => {
     
-    console.log("here")
+
     try {
         // const response = await client.send(command);
         const response = await listContents();
