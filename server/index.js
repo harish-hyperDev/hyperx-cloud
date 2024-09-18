@@ -6,6 +6,8 @@ const userRoutes = require('./src/routes/userRoutes')
 const app = express();
 //const HOSTNAME = "::"
 const PORT = process.env.PORT || 4001;
+console.log(PORT)
+console.log(process.env.MONGO_DB_NAME)
 
 app.use('/users', userRoutes)
 app.use('/objects', s3Routes)
